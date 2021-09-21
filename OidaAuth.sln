@@ -16,6 +16,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OidaAuth.Microsoft.Identity.Groups", "src\OidaAuth.Micorosft.Identity.Groups\OidaAuth.Microsoft.Identity.Groups.csproj", "{5E25545E-FF66-4703-8268-3D75E68074B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{21562DB8-4659-407E-AE4D-44D0817B7285}"
+	ProjectSection(SolutionItems) = preProject
+		samples\Directory.Build.props = samples\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OidaAuth.Sample.App", "samples\OidaAuth.Sample.App\OidaAuth.Sample.App.csproj", "{58FC3315-9B20-48E2-B335-FB533DED0B81}"
 EndProject
