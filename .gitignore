@@ -1,0 +1,12 @@
+# User
+*.vs
+*.suo
+*.user
+.DS_Store
+
+# Build
+bin/
+obj/
+
+# Test
+test-results/
