@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
+    <UserSecretsId>d92c1a1c-e5e4-4ba0-9ffe-c8ad8708eeff</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
+  
+    <ProjectReference Include="..\..\src\OidaAuth.Micorosft.Identity.Groups\OidaAuth.Microsoft.Identity.Groups.csproj" />
+  </ItemGroup>
+
+</Project>
