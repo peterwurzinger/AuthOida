@@ -24,6 +24,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OidaAuth.Sample.App", "samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OidaAuth.Sample.Api", "samples\OidaAuth.Sample.Api\OidaAuth.Sample.Api.csproj", "{6443F10B-26DB-41B9-ABC5-DFFEFFF33EF7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{04AFCA1B-D813-4E6E-AC58-A485B03B151E}"
+	ProjectSection(SolutionItems) = preProject
+		test\Directory.Build.props = test\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OidaAuth.Micorosft.Identity.Groups.Tests", "test\OidaAuth.Micorosft.Identity.Groups.Tests\OidaAuth.Micorosft.Identity.Groups.Tests.csproj", "{EEEA4619-6362-4B0A-BD49-FEE1CAF08545}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +49,10 @@ Global
 		{6443F10B-26DB-41B9-ABC5-DFFEFFF33EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6443F10B-26DB-41B9-ABC5-DFFEFFF33EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6443F10B-26DB-41B9-ABC5-DFFEFFF33EF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEEA4619-6362-4B0A-BD49-FEE1CAF08545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEEA4619-6362-4B0A-BD49-FEE1CAF08545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEEA4619-6362-4B0A-BD49-FEE1CAF08545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEEA4619-6362-4B0A-BD49-FEE1CAF08545}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +61,7 @@ Global
 		{5E25545E-FF66-4703-8268-3D75E68074B7} = {ED25B8DB-0698-473D-912D-0C9EC156F756}
 		{58FC3315-9B20-48E2-B335-FB533DED0B81} = {21562DB8-4659-407E-AE4D-44D0817B7285}
 		{6443F10B-26DB-41B9-ABC5-DFFEFFF33EF7} = {21562DB8-4659-407E-AE4D-44D0817B7285}
+		{EEEA4619-6362-4B0A-BD49-FEE1CAF08545} = {04AFCA1B-D813-4E6E-AC58-A485B03B151E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {89125B3E-9E18-42DB-A510-F20086291F36}
