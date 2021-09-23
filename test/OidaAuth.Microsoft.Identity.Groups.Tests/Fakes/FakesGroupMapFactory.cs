@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OidaAuth.Micorosft.Identity.Groups.Tests.Fakes
+namespace OidaAuth.Microsoft.Identity.Groups.Tests.Fakes
 {
     public class FakesGroupMapFactory : IGroupsMapFactory
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OidaAuth.Micorosft.Identity.Groups.Tests.Fakes
+namespace OidaAuth.Microsoft.Identity.Groups.Tests.Fakes
 {
     public class FakeGroupsMap : IGroupsMap
     {

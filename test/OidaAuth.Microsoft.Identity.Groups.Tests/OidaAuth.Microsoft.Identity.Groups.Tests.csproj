@@ -5,7 +5,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\src\OidaAuth.Micorosft.Identity.Groups\OidaAuth.Microsoft.Identity.Groups.csproj" />
+    <ProjectReference Include="..\..\src\OidaAuth.Microsoft.Identity.Groups\OidaAuth.Microsoft.Identity.Groups.csproj" />
   </ItemGroup>
 
 </Project>

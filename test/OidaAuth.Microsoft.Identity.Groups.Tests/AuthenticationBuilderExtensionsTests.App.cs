@@ -5,7 +5,7 @@ using OidaAuth.Microsoft.Identity.Groups;
 using System;
 using Xunit;
 
-namespace OidaAuth.Micorosft.Identity.Groups.Tests
+namespace OidaAuth.Microsoft.Identity.Groups.Tests
 {
     public partial class AuthenticationBuilderExtensionsTests
     {

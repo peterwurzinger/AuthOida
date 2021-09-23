@@ -1,10 +1,10 @@
-﻿using OidaAuth.Micorosft.Identity.Groups.Tests.Fakes;
+﻿using OidaAuth.Microsoft.Identity.Groups.Tests.Fakes;
 using OidaAuth.Microsoft.Identity.Groups;
 using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace OidaAuth.Micorosft.Identity.Groups.Tests
+namespace OidaAuth.Microsoft.Identity.Groups.Tests
 {
     public class GroupsMapObtainerTests
     {

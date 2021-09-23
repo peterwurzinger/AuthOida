@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xunit;
 
-namespace OidaAuth.Micorosft.Identity.Groups.Tests
+namespace OidaAuth.Microsoft.Identity.Groups.Tests
 {
     public class GroupsMapDictionaryTests
     {

@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -55,54 +53,15 @@ namespace OidaAuth.Microsoft.Identity.Groups
             return AugmentPrincipalWithMappedRolesInternal(authenticationScheme, claimsPrincipal, cancellationToken);
         }
 
-        private async Task AugmentPrincipalWithMappedRolesInternal(string authenticationScheme, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken = default)
-        {
-            var groupsMappingOptions = _groupsMappingOptionsAccessor.Get(authenticationScheme);
-            var groupClaims = GetGroupClaims(authenticationScheme, claimsPrincipal, groupsMappingOptions.TokenGroupClaimType);
-
-            var groupsMap = await _groupsMapsObtainer.GetOrCreate(authenticationScheme, cancellationToken).ConfigureAwait(false);
-            var mappedRoles = new List<Claim>();
-            foreach (var groupClaim in groupClaims)
-            {
-                Map(groupsMap, groupsMappingOptions.GroupClaimType, mappedRoles, groupClaim);
-            }
-
-            if (mappedRoles.Any())
-                AugmentPrincipal(groupsMappingOptions.AuthenticationType, claimsPrincipal, mappedRoles);
-        }
-
-        private Claim[] GetGroupClaims(string authenticationScheme, ClaimsPrincipal claimsPrincipal, string tokenGroupClaimType)
+        private async Task AugmentPrincipalWithMappedRolesInternal(string authenticationScheme, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
         {
             var identityOptions = _identityOptionsAccessor.Get(authenticationScheme);
+            var groupsMappingOptions = _groupsMappingOptionsAccessor.Get(authenticationScheme);
+            var groupsMap = await _groupsMapsObtainer.GetOrCreate(authenticationScheme, cancellationToken).ConfigureAwait(false);
 
-            var groupClaims = from identity in claimsPrincipal.Identities
-                              let tenantIdClaim = identity.FindFirst(ClaimConstants.TenantId)
-                              where tenantIdClaim is not null
-                              where tenantIdClaim?.Value == identityOptions.TenantId
+            var groupsMapping = GroupsMapping.Prepare(identityOptions, groupsMappingOptions, groupsMap);
 
-                              from claim in identity.Claims
-                              where claim.Type == tokenGroupClaimType
-                              select claim;
-
-            return groupClaims.ToArray();
-        }
-
-        private static void Map(IGroupsMap groupsMap, string groupClaimType, ICollection<Claim> mappedRoles, Claim msalGroupClaim)
-        {
-            var groupExists = groupsMap.TryGetValue(msalGroupClaim.Value, out var groupDisplayName);
-            if (groupExists)
-            {
-                var claim = new Claim(groupClaimType, groupDisplayName!, ClaimValueTypes.String);
-                mappedRoles.Add(claim);
-            }
-        }
-
-        private static void AugmentPrincipal(string authenticationType, ClaimsPrincipal claimsPrincipal, List<Claim> mappedRoles)
-        {
-            var mappedRolesIdentity = new ClaimsIdentity(authenticationType);
-            mappedRolesIdentity.AddClaims(mappedRoles);
-
-            claimsPrincipal.AddIdentity(mappedRolesIdentity);
+            groupsMapping.PerformMappingOn(claimsPrincipal);
         }
     }
 }
