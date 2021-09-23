@@ -14,7 +14,7 @@ namespace OidaAuth.Microsoft.Identity.Groups
         private readonly string _authenticationType;
         private readonly IGroupsMap _groupsMap;
 
-        private GroupsMapping(string tenantId, string tokenGroupClaimType, string groupClaimType, string authenticationType, IGroupsMap groupsMap)
+        internal GroupsMapping(string tenantId, string tokenGroupClaimType, string groupClaimType, string authenticationType, IGroupsMap groupsMap)
         {
             _tenantId = tenantId ?? throw new ArgumentNullException(nameof(tenantId));
             _tokenGroupClaimType = tokenGroupClaimType ?? throw new ArgumentNullException(nameof(tokenGroupClaimType));
@@ -23,9 +23,9 @@ namespace OidaAuth.Microsoft.Identity.Groups
             _groupsMap = groupsMap ?? throw new ArgumentNullException(nameof(groupsMap));
         }
 
-        internal static GroupsMapping Prepare(MicrosoftIdentityOptions microsoftIdentityOptions, GroupsMappingOptions groupsMappingOptions, IGroupsMap groupsMap)
+        internal static GroupsMapping Prepare(MicrosoftIdentityOptions identityOptions, GroupsMappingOptions groupsMappingOptions, IGroupsMap groupsMap)
         {
-            return new GroupsMapping(microsoftIdentityOptions.TenantId!, groupsMappingOptions.TokenGroupClaimType, groupsMappingOptions.GroupClaimType, groupsMappingOptions.AuthenticationType, groupsMap);
+            return new GroupsMapping(identityOptions.TenantId!, groupsMappingOptions.TokenGroupClaimType, groupsMappingOptions.GroupClaimType, groupsMappingOptions.AuthenticationType, groupsMap);
         }
 
         internal void PerformMappingOn(ClaimsPrincipal claimsPrincipal)

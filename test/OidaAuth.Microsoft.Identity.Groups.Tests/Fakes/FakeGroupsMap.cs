@@ -1,18 +1,22 @@
-﻿using OidaAuth.Microsoft.Identity.Groups;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace OidaAuth.Microsoft.Identity.Groups.Tests.Fakes
 {
     public class FakeGroupsMap : IGroupsMap
     {
+        public string? GroupDisplayName { get; set; }
+        public bool TryGetValueCalled { get; private set; }
         public bool TryGetValue(string groupId, [MaybeNullWhen(false)] out string groupDisplayName)
         {
-            throw new NotImplementedException();
+            TryGetValueCalled = true;
+            if (GroupDisplayName is not null)
+            {
+                groupDisplayName = GroupDisplayName;
+                return true;
+            }
+
+            groupDisplayName = null;
+            return false;
         }
     }
 }
