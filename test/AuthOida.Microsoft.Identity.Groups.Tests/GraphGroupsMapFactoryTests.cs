@@ -15,11 +15,12 @@ namespace AuthOida.Microsoft.Identity.Groups.Tests
         }
 
         [Fact]
-        public async Task CreateThrowsIfAuthenticationSchemeIsNull()
+        public async Task CreateThrowsIfAuthenticationSchemeIsNullOrEmpty()
         {
             var factory = new GraphGroupsMapFactory(new FakeOptionsMonitor<MicrosoftIdentityOptions>());
 
             await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => factory.Create(null!));
+            await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => factory.Create(string.Empty));
         }
     }
 }
