@@ -4,7 +4,7 @@ AuthOida
 [![Latest package](https://img.shields.io/nuget/v/AuthOida.Microsoft.Identity.Groups.svg)](https://www.nuget.org/packages/AuthOida.Microsoft.Identity.Groups)
 [![Download tracker](https://img.shields.io/nuget/dt/AuthOida.Microsoft.Identity.Groups.svg)](https://www.nuget.org/packages/AuthOida.Microsoft.Identity.Groups)
 [![GitHub status](https://github.com/peterwurzinger/AuthOida/workflows/everything/badge.svg)](https://github.com/peterwurzinger/AuthOida/actions)
-[![Code coverage](https://app.codecov.io/gh/peterwurzinger/AuthOida/branch/main/graph/badge.svg)](https://app.codecov.io/gh/peterwurzinger/AuthOida)
+[![Code coverage](https://codecov.io/gh/peterwurzinger/AuthOida/branch/main/graph/badge.svg)](https://codecov.io/gh/peterwurzinger/AuthOida)
 
 *AuthOida* closes a gap in *Microsoft.Identity.Web*, where Azure Active Directory group
 assignments for an identity are only appended to the token using the groups `ObjectID` instead of
