@@ -20,7 +20,7 @@ namespace AuthOida.Microsoft.Identity.Groups
         /// <summary>
         /// Constructs a new <see cref="GraphGroupsMapFactory"/>.
         /// </summary>
-        /// <param name="options">The <see cref="MicrosoftIdentityOptions"/> for authenticating the application</param>
+        /// <param name="identityOptionsAccessor">The <see cref="MicrosoftIdentityOptions"/> for authenticating the application</param>
         /// <exception cref="ArgumentNullException">When <paramref name="identityOptionsAccessor"/> is null</exception>
         public GraphGroupsMapFactory(IOptionsMonitor<MicrosoftIdentityOptions> identityOptionsAccessor)
         {

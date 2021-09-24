@@ -3,6 +3,10 @@
 	<Import Project="..\build.props" />
 	<Import Project="..\package.props" />
 
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<InternalsVisibleTo Include="$(AssemblyName).Tests" Key="0024000004800000940000000602000000240000525341310004000001000100514a9b1ebbac16c2c70ffd1fdaf7708b618d8731c7915cc5bc387fbdc6e0802aaafb3e9fbb28a77e40d13e66e49b7a3c5cde372d347d6c60b01ee81272f70afc53fb358ad2a83230b5b38a9861d30e90c1b89c178ea2cfd3937827e730d30a35f93077623b42dd6345b18bc079124810596896e3fcba9566104ba7ab7b23f1b7"/>
 	</ItemGroup>

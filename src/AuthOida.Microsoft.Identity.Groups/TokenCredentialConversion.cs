@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace AuthOida.Microsoft.Identity.Groups
 {
-    public static class TokenCredentialConversion
+    internal static class TokenCredentialConversion
     {
-        public static TokenCredential FromIdentityOptions(MicrosoftIdentityOptions identityOptions)
+        internal static TokenCredential FromIdentityOptions(MicrosoftIdentityOptions identityOptions)
         {
             if (identityOptions is null)
                 throw new ArgumentNullException(nameof(identityOptions));
