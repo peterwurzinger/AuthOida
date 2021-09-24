@@ -2,6 +2,7 @@
 using Microsoft.Identity.Web;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using Xunit;
 
 namespace OidaAuth.Microsoft.Identity.Groups.Tests
@@ -17,13 +18,14 @@ namespace OidaAuth.Microsoft.Identity.Groups.Tests
         [Fact]
         public void FromIdentityOptionsShouldReturnClientCertificateCredentialIfClientCertificatesNotEmpty()
         {
+            using var fakeCert = new X509Certificate2();
             var identityOptions = new MicrosoftIdentityOptions
             {
                 TenantId = "Tenant1234",
                 ClientId = "ClientId1234",
                 ClientCertificates = new List<CertificateDescription>()
                 {
-                    CertificateDescription.FromCertificate(new())
+                    CertificateDescription.FromCertificate(fakeCert)
                 }
             };
 
@@ -50,6 +52,7 @@ namespace OidaAuth.Microsoft.Identity.Groups.Tests
         [Fact]
         public void FromIdentityOptionsShouldPreferClientCertificateOverClientSecret()
         {
+            using var fakeCert = new X509Certificate2();
             var identityOptions = new MicrosoftIdentityOptions
             {
                 TenantId = "Tenant1234",
@@ -57,7 +60,7 @@ namespace OidaAuth.Microsoft.Identity.Groups.Tests
                 ClientSecret = "Pssst,Secret",
                 ClientCertificates = new List<CertificateDescription>()
                 {
-                    CertificateDescription.FromCertificate(new())
+                    CertificateDescription.FromCertificate(fakeCert)
                 }
             };
 

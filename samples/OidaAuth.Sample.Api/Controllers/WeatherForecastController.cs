@@ -29,6 +29,7 @@ namespace OidaAuth.Sample.Api.Controllers
             _logger = logger;
         }
 
+#pragma warning disable CA5394 // Do not use insecure randomness
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
@@ -43,5 +44,6 @@ namespace OidaAuth.Sample.Api.Controllers
             })
             .ToArray();
         }
+#pragma warning restore CA5394 // Do not use insecure randomness
     }
 }
