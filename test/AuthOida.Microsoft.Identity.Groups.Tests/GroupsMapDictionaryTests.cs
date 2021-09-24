@@ -1,4 +1,5 @@
-﻿using AuthOida.Microsoft.Identity.Groups;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Xunit;
 
@@ -6,6 +7,12 @@ namespace AuthOida.Microsoft.Identity.Groups.Tests
 {
     public class GroupsMapDictionaryTests
     {
+        [Fact]
+        public void CtorThrowsIfBackingDictionaryIsNull()
+        {
+            Assert.Throws<ArgumentNullException>("backingDictionary", () => new GroupsMapDictionary(null!));
+        }
+
         [Fact]
         public void CtorShouldCopyDictionary()
         {
@@ -37,6 +44,7 @@ namespace AuthOida.Microsoft.Identity.Groups.Tests
             Assert.Equal(dictionary.Count, groupsMap.Count);
             Assert.Equal(dictionary.ContainsKey("1234"), groupsMap.ContainsKey("1234"));
             Assert.NotStrictEqual(dictionary.GetEnumerator(), groupsMap.GetEnumerator());
+            Assert.NotStrictEqual(((IEnumerable)dictionary).GetEnumerator(), ((IEnumerable)groupsMap).GetEnumerator());
         }
     }
 }
