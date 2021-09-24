@@ -1,9 +1,10 @@
 <Project>
 
-  <Import Project="..\build.props" />
+	<Import Project="..\build.props" />
+	<Import Project="..\package.props" />
 
-  <ItemGroup>
-    <InternalsVisibleTo Include="$(AssemblyName).Tests" />
-  </ItemGroup>
+	<ItemGroup>
+		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
+	</ItemGroup>
 
 </Project>
