@@ -1,5 +1,4 @@
-﻿using OidaAuth.Microsoft.Identity.Groups;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 

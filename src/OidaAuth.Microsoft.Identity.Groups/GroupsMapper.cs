@@ -21,15 +21,15 @@ namespace OidaAuth.Microsoft.Identity.Groups
         /// Creates a new <see cref="GroupsMapper"/>
         /// </summary>
         /// <param name="groupsMapObtainer">The <see cref="GroupsMapObtainer#"/> to access the <see cref="IGroupsMap"/> for a given authenticatino scheme</param>
-        /// <param name="groupMappingOptionsAccessor">Accessor for <see cref="GroupsMappingOptions"/> for a given authentication scheme</param>
+        /// <param name="groupsMappingOptionsAccessor">Accessor for <see cref="GroupsMappingOptions"/> for a given authentication scheme</param>
         /// <param name="identityOptionsAccessor">Accessor for <see cref="MicrosoftIdentityOptions"/> for a given authentication scheme</param>
         /// <exception cref="ArgumentNullException"><paramref name="groupsMapObtainer"/> is null</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="groupMappingOptionsAccessor"/> is null</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="groupsMappingOptionsAccessor"/> is null</exception>
         /// <exception cref="ArgumentNullException"><paramref name="identityOptionsAccessor"/> is null</exception>
-        public GroupsMapper(GroupsMapObtainer groupsMapObtainer, IOptionsSnapshot<GroupsMappingOptions> groupMappingOptionsAccessor, IOptionsSnapshot<MicrosoftIdentityOptions> identityOptionsAccessor)
+        public GroupsMapper(GroupsMapObtainer groupsMapObtainer, IOptionsSnapshot<GroupsMappingOptions> groupsMappingOptionsAccessor, IOptionsSnapshot<MicrosoftIdentityOptions> identityOptionsAccessor)
         {
             _groupsMapsObtainer = groupsMapObtainer ?? throw new ArgumentNullException(nameof(groupsMapObtainer));
-            _groupsMappingOptionsAccessor = groupMappingOptionsAccessor ?? throw new ArgumentNullException(nameof(groupMappingOptionsAccessor));
+            _groupsMappingOptionsAccessor = groupsMappingOptionsAccessor ?? throw new ArgumentNullException(nameof(groupsMappingOptionsAccessor));
             _identityOptionsAccessor = identityOptionsAccessor ?? throw new ArgumentNullException(nameof(identityOptionsAccessor));
         }
 
