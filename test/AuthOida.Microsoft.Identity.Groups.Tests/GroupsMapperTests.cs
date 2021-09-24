@@ -22,26 +22,26 @@ namespace AuthOida.Microsoft.Identity.Groups.Tests
         }
 
         [Fact]
-        public async Task AugmentPrincipalWithMappedRolesThrowsIfAuthenticationSchemeIsNullOrEmpty()
+        public async Task EnrichPrincipalWithMappedRolesThrowsIfAuthenticationSchemeIsNullOrEmpty()
         {
             var mapper = GetGroupsMapper();
 
-            await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => mapper.AugmentPrincipalWithMappedRoles(null!, new ClaimsPrincipal()));
-            await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => mapper.AugmentPrincipalWithMappedRoles(string.Empty, new ClaimsPrincipal()));
+            await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => mapper.EnrichPrincipalWithMappedRoles(null!, new ClaimsPrincipal()));
+            await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => mapper.EnrichPrincipalWithMappedRoles(string.Empty, new ClaimsPrincipal()));
         }
 
         [Fact]
-        public void AugmentPrincipalShouldDoNothingIfPrincipalIsNull()
+        public void EnrichPrincipalShouldDoNothingIfPrincipalIsNull()
         {
             var mapper = GetGroupsMapper();
 
-            var result = mapper.AugmentPrincipalWithMappedRoles("Test", null!);
+            var result = mapper.EnrichPrincipalWithMappedRoles("Test", null!);
 
             Assert.Same(Task.CompletedTask, result);
         }
 
         [Fact]
-        public async Task AugmentPrincipalWithMappedRolesShouldObtainRightOptionInstances()
+        public async Task EnrichPrincipalWithMappedRolesShouldObtainRightOptionInstances()
         {
             var groupsMapFactory = new FakesGroupMapFactory();
             var obtainer = new GroupsMapObtainer(groupsMapFactory);
@@ -52,7 +52,7 @@ namespace AuthOida.Microsoft.Identity.Groups.Tests
             });
             var mapper = new GroupsMapper(obtainer, groupsMappingOptions, identityOptions);
 
-            await mapper.AugmentPrincipalWithMappedRoles("Test", new());
+            await mapper.EnrichPrincipalWithMappedRoles("Test", new());
 
             Assert.True(groupsMappingOptions.GetCalled);
             Assert.Equal("Test", groupsMappingOptions.LastName);

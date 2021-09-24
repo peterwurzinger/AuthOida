@@ -40,10 +40,10 @@ namespace AuthOida.Microsoft.Identity.Groups
         /// <see cref="MicrosoftIdentityOptions.TenantId"/> are candidates for a lookup.
         /// </summary>
         /// <param name="authenticationScheme">The authentication scheme for which the group Ids should be mapped</param>
-        /// <param name="claimsPrincipal">The <see cref="ClaimsPrincipal"/> to augment with a new identity, that contains the mapped claims</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> to cancel the augmentation</param>
+        /// <param name="claimsPrincipal">The <see cref="ClaimsPrincipal"/> to enrich with a new identity, that contains the mapped claims</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> to cancel the enrichment of the principal</param>
         /// <exception cref="ArgumentException">If <paramref name="authenticationScheme"/> is null or empty</exception>
-        public Task AugmentPrincipalWithMappedRoles(string authenticationScheme, ClaimsPrincipal? claimsPrincipal, CancellationToken cancellationToken = default)
+        public Task EnrichPrincipalWithMappedRoles(string authenticationScheme, ClaimsPrincipal? claimsPrincipal, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrEmpty(authenticationScheme))
                 throw new ArgumentException($"'{nameof(authenticationScheme)}' cannot be null or empty.", nameof(authenticationScheme));
@@ -51,10 +51,10 @@ namespace AuthOida.Microsoft.Identity.Groups
             if (claimsPrincipal is null)
                 return Task.CompletedTask;
 
-            return AugmentPrincipalWithMappedRolesInternal(authenticationScheme, claimsPrincipal, cancellationToken);
+            return EnrichPrincipalWithMappedRolesInternal(authenticationScheme, claimsPrincipal, cancellationToken);
         }
 
-        private async Task AugmentPrincipalWithMappedRolesInternal(string authenticationScheme, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
+        private async Task EnrichPrincipalWithMappedRolesInternal(string authenticationScheme, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
         {
             var identityOptions = _identityOptionsAccessor.Get(authenticationScheme);
             var groupsMappingOptions = _groupsMappingOptionsAccessor.Get(authenticationScheme);

@@ -39,7 +39,7 @@ namespace AuthOida.Microsoft.Identity.Groups
             }
 
             if (mappedRoles.Any())
-                AugmentPrincipal(_authenticationType, claimsPrincipal, mappedRoles);
+                AddClaimsAsIdentity(_authenticationType, claimsPrincipal, mappedRoles);
         }
 
         private static Claim[] GetGroupClaims(ClaimsPrincipal claimsPrincipal, string tenantId, string tokenGroupClaimType)
@@ -66,7 +66,7 @@ namespace AuthOida.Microsoft.Identity.Groups
             }
         }
 
-        private static void AugmentPrincipal(string authenticationType, ClaimsPrincipal claimsPrincipal, List<Claim> mappedRoles)
+        private static void AddClaimsAsIdentity(string authenticationType, ClaimsPrincipal claimsPrincipal, List<Claim> mappedRoles)
         {
             var mappedRolesIdentity = new ClaimsIdentity(authenticationType);
             mappedRolesIdentity.AddClaims(mappedRoles);

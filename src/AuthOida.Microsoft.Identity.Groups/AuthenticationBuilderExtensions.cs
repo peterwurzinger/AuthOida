@@ -39,7 +39,7 @@ namespace AuthOida.Microsoft.Identity.Groups
                 {
                     await onTokenValidated(ctx).ConfigureAwait(false);
                     var groupsMapper = ctx.HttpContext.RequestServices.GetRequiredService<GroupsMapper>();
-                    await groupsMapper.AugmentPrincipalWithMappedRoles(jwtBearerScheme, ctx.Principal).ConfigureAwait(false);
+                    await groupsMapper.EnrichPrincipalWithMappedRoles(jwtBearerScheme, ctx.Principal).ConfigureAwait(false);
                 };
             });
             return authenticationBuilder;
@@ -72,7 +72,7 @@ namespace AuthOida.Microsoft.Identity.Groups
                 {
                     await onTokenValidated(ctx).ConfigureAwait(false);
                     var groupsMapper = ctx.HttpContext.RequestServices.GetRequiredService<GroupsMapper>();
-                    await groupsMapper.AugmentPrincipalWithMappedRoles(openIdConnectScheme, ctx.Principal).ConfigureAwait(false);
+                    await groupsMapper.EnrichPrincipalWithMappedRoles(openIdConnectScheme, ctx.Principal).ConfigureAwait(false);
                 };
             });
 
