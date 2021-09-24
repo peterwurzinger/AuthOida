@@ -1,11 +1,17 @@
-# AuthOida
+AuthOida
+==========
+
+[![Latest package](https://img.shields.io/nuget/v/AuthOida.Microsoft.Identity.Groups.svg)](https://www.nuget.org/packages/AuthOida.Microsoft.Identity.Groups)
+[![Download tracker](https://img.shields.io/nuget/dt/AuthOida.Microsoft.Identity.Groups.svg)](https://www.nuget.org/packages/AuthOida.Microsoft.Identity.Groups)
+[![GitHub status](https://github.com/peterwurzinger/AuthOida/workflows/everything/badge.svg)](https://github.com/peterwurzinger/AuthOida/actions)
+[![Code coverage](https://app.codecov.io/gh/peterwurzinger/AuthOida/branch/main/graph/badge.svg)](https://app.codecov.io/gh/peterwurzinger/AuthOida)
 
 *AuthOida* closes a gap in *Microsoft.Identity.Web*, where Azure Active Directory group
 assignments for an identity are only appended to the token using the groups `ObjectID` instead of
 their display name. Refer to [StackOverflow](https://stackoverflow.com/questions/65146210/azure-ad-show-group-name-in-id-token-instead-of-group-id)
 and a [GitHub issue](https://github.com/MicrosoftDocs/azure-docs/issues/59766) for some details.
 
-## Usage
+# Usage
 *AuthOida* supports WebApps and API scenarios likewise, as long as `Microsoft.Identity.Web` is
 used for authentication. For both use cases *AuthOida* provides an extension method
 `AddMappedGroups()` as primary hook.
@@ -24,7 +30,7 @@ need to either specify a `ClientSecret` or provide at least one `ClientCertifica
 Graph. (Please note, that if both are specified, *AuthOida* will authenticate using `ClientCertificate` in favor of
 `ClientSecret`.)
 
-### For WebApps
+## For WebApps
 Kindly refer to `samples/AuthOida.Sample.App` for a runnable sample of a WebApp using `AuthOida`.
 ```csharp
 services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
@@ -32,7 +38,7 @@ services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         .AddMappedGroups();
 ```
 
-### For APIs
+## For APIs
 Kindly refer to `samples/AuthOida.Sample.API` for a runnable sample of an API using `AuthOida`.
 ```csharp
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -40,9 +46,9 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddMappedGroups();
 ```
 
-## Considerations
+# Considerations
 
-### Performance
+## Performance
 *AuthOida* makes at least one API call to MS Graph querying all groups of an AD instance
 for their display names during the lifetime of an application instance. Therefore the first request
 to a new instance *could potentially* experience a significant response delay. I only tested it with
@@ -52,19 +58,19 @@ would be highly appreciated.
 *Consider* prewarming instances, so that subsequent requests will fallback to the cache, if you
 experience significant delays on the first request.
 
-### Caching
+## Caching
 *AuthOida* builds up a lookup dictionary, that is bound to the application lifetime. As long as the
 application is loaded, *AuthOida* will reuse the previously queried lookup pairs.
 
 *Note:* *AuthOida* does not attempt to refresh this cache, as groups display names are considered to be
 rather static.
 
-### Thread Safety
+## Thread Safety
 *AuthOida* is not thread safe in that sense, that for `n` simultaneously arriving first requests there
 could be a race, where the application groups would be queried `n` times instead of only once.
 This does not cause any harm, as the caches would simply be replaced with one another.
 
-### On-premise Groups
+## On-premise Groups
 Active Directory groups, that are synced from an on-premise instance most likely do not suffer from
 the issue described above. As of now, the groups display names are only omitted for Azure AD security
 group instances.
