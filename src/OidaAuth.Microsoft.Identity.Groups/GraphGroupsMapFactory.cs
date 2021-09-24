@@ -1,11 +1,8 @@
-﻿using Azure.Core;
-using Azure.Identity;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.Graph;
 using Microsoft.Identity.Web;
 using System;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -75,22 +72,11 @@ namespace OidaAuth.Microsoft.Identity.Groups
 
         private GraphServiceClient CreateClient(string authenticationScheme)
         {
-            var options = _identityOptionsAccessor.Get(authenticationScheme);
+            var identityOptions = _identityOptionsAccessor.Get(authenticationScheme);
 
-            var credential = GetCredentialByIdentityOptions(options, authenticationScheme);
+            var credential = TokenCredentialConversion.FromIdentityOptions(identityOptions);
 
             return new GraphServiceClient(credential);
-        }
-
-        private static TokenCredential GetCredentialByIdentityOptions(MicrosoftIdentityOptions options, string authenticationScheme)
-        {
-            if (options.ClientCertificates?.Any() ?? false)
-                return new ClientCertificateCredential(options.TenantId, options.ClientId, options.ClientCertificates.First().Certificate);
-
-            if (options.ClientSecret is null)
-                throw new InvalidOperationException($"Either a client certificate or client secret must be provided for authentication scheme '{authenticationScheme}'.");
-
-            return new ClientSecretCredential(options.TenantId, options.ClientId, options.ClientSecret);
         }
     }
 }
