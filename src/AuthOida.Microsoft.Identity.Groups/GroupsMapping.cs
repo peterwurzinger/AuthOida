@@ -47,7 +47,7 @@ namespace AuthOida.Microsoft.Identity.Groups
             var groupClaims = from identity in claimsPrincipal.Identities
                               let tenantIdClaim = identity.FindFirst(ClaimConstants.TenantId)
                               where tenantIdClaim is not null
-                              where tenantIdClaim?.Value == tenantId
+                              where tenantIdClaim.Value == tenantId
 
                               from claim in identity.Claims
                               where claim.Type == tokenGroupClaimType
