@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.17.0" />
 
-    <ProjectReference Include="$(MSBuildThisFileDirectory)..\src\OidaAuth.Microsoft.Identity.Groups\OidaAuth.Microsoft.Identity.Groups.csproj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\src\AuthOida.Microsoft.Identity.Groups\AuthOida.Microsoft.Identity.Groups.csproj" />
   </ItemGroup>
 
 </Project>
