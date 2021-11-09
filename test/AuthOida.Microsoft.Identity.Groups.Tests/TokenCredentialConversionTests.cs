@@ -1,8 +1,8 @@
-﻿using Azure.Identity;
+﻿using AuthOida.Microsoft.Identity.Groups.Tests.Fakes;
+using Azure.Identity;
 using Microsoft.Identity.Web;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using Xunit;
 
 namespace AuthOida.Microsoft.Identity.Groups.Tests
@@ -18,7 +18,7 @@ namespace AuthOida.Microsoft.Identity.Groups.Tests
         [Fact]
         public void FromIdentityOptionsShouldReturnClientCertificateCredentialIfClientCertificatesNotEmpty()
         {
-            using var fakeCert = new X509Certificate2();
+            using var fakeCert = FakeCertificate.CreateSelfSignedCertificateForTests();
             var identityOptions = new MicrosoftIdentityOptions
             {
                 TenantId = "Tenant1234",
@@ -52,7 +52,7 @@ namespace AuthOida.Microsoft.Identity.Groups.Tests
         [Fact]
         public void FromIdentityOptionsShouldPreferClientCertificateOverClientSecret()
         {
-            using var fakeCert = new X509Certificate2();
+            using var fakeCert = FakeCertificate.CreateSelfSignedCertificateForTests();
             var identityOptions = new MicrosoftIdentityOptions
             {
                 TenantId = "Tenant1234",

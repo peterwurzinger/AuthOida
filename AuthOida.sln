@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		AuthOida.snk = AuthOida.snk
 		build.props = build.props
 		codecov.yml = codecov.yml
+		global.json = global.json
 		LICENCE = LICENCE
 		package.props = package.props
 		README.md = README.md

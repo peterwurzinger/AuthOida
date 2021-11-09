@@ -3,7 +3,7 @@
   <Import Project="..\build.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1</TargetFrameworks>
     <UserSecretsId>d92c1a1c-e5e4-4ba0-9ffe-c8ad8708eeff</UserSecretsId>
   </PropertyGroup>
 
