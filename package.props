@@ -27,7 +27,7 @@
 	<PropertyGroup>
 		<PackageProjectUrl>https://github.com/peterwurzinger/AuthOida</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Initial release</PackageReleaseNotes>
+		<PackageReleaseNotes>Support for .NET 6, Upgraded to Microsoft.Identity.Web.MicrosoftGraph 1.20.0</PackageReleaseNotes>
 		<PackageTags>Microsoft.Identity;AzureAD</PackageTags>
 	</PropertyGroup>
 
