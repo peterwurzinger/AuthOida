@@ -1,9 +1,13 @@
 <Project>
 
 	<PropertyGroup>
+		<MicrosoftIdentityWebVersion>1.21.0</MicrosoftIdentityWebVersion>
+	</PropertyGroup>
+	
+	<PropertyGroup>
 		<Nullable>Enable</Nullable>
 		<LangVersion>10.0</LangVersion>
-		<VersionPrefix>1.20.0</VersionPrefix>
+		<VersionPrefix>$(MicrosoftIdentityWebVersion)</VersionPrefix>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -28,7 +32,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.31.0.39249" PrivateAssets="All" />
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.32.0.39516" PrivateAssets="All" />
 	</ItemGroup>
 
 </Project>
