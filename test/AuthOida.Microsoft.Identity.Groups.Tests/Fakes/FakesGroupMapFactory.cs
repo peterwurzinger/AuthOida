@@ -2,26 +2,25 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AuthOida.Microsoft.Identity.Groups.Tests.Fakes
+namespace AuthOida.Microsoft.Identity.Groups.Tests.Fakes;
+
+public class FakesGroupMapFactory : IGroupsMapFactory
 {
-    public class FakesGroupMapFactory : IGroupsMapFactory
+    private readonly Dictionary<string, int> _callsPerAuthenticationScheme;
+    public IReadOnlyDictionary<string, int> CallsPerAuthenticationScheme => _callsPerAuthenticationScheme;
+
+    public FakesGroupMapFactory()
     {
-        private readonly Dictionary<string, int> _callsPerAuthenticationScheme;
-        public IReadOnlyDictionary<string, int> CallsPerAuthenticationScheme => _callsPerAuthenticationScheme;
+        _callsPerAuthenticationScheme = new Dictionary<string, int>();
+    }
 
-        public FakesGroupMapFactory()
-        {
-            _callsPerAuthenticationScheme = new Dictionary<string, int>();
-        }
+    public Task<IGroupsMap> Create(string authenticationScheme, CancellationToken cancellationToken = default)
+    {
+        if (_callsPerAuthenticationScheme.ContainsKey(authenticationScheme))
+            _callsPerAuthenticationScheme[authenticationScheme]++;
 
-        public Task<IGroupsMap> Create(string authenticationScheme, CancellationToken cancellationToken = default)
-        {
-            if (_callsPerAuthenticationScheme.ContainsKey(authenticationScheme))
-                _callsPerAuthenticationScheme[authenticationScheme]++;
+        _callsPerAuthenticationScheme[authenticationScheme] = 1;
 
-            _callsPerAuthenticationScheme[authenticationScheme] = 1;
-
-            return Task.FromResult((IGroupsMap)new FakeGroupsMap());
-        }
+        return Task.FromResult((IGroupsMap)new FakeGroupsMap());
     }
 }

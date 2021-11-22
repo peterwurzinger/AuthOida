@@ -1,38 +1,38 @@
 <Project>
 
-	<PropertyGroup>
-		<MicrosoftIdentityWebVersion>1.21.0</MicrosoftIdentityWebVersion>
-	</PropertyGroup>
-	
-	<PropertyGroup>
-		<Nullable>Enable</Nullable>
-		<LangVersion>10.0</LangVersion>
-		<VersionPrefix>$(MicrosoftIdentityWebVersion)</VersionPrefix>
-	</PropertyGroup>
+  <PropertyGroup>
+    <MicrosoftIdentityWebVersion>1.21.0</MicrosoftIdentityWebVersion>
+  </PropertyGroup>
 
-	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-	</PropertyGroup>
+  <PropertyGroup>
+    <Nullable>Enable</Nullable>
+    <LangVersion>10.0</LangVersion>
+    <VersionPrefix>$(MicrosoftIdentityWebVersion)</VersionPrefix>
+  </PropertyGroup>
 
-	<PropertyGroup>
-		<AnalysisLevel>latest</AnalysisLevel>
-		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
-		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-	</PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<AssemblyAttribute Include="CLSCompliantAttribute">
-			<_Parameter1>false</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
+  <PropertyGroup>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+  </PropertyGroup>
 
-	<PropertyGroup>
-		<AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)AuthOida.snk</AssemblyOriginatorKeyFile>
-		<SignAssembly>true</SignAssembly>
-	</PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="CLSCompliantAttribute">
+      <_Parameter1>false</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.32.0.39516" PrivateAssets="All" />
-	</ItemGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)AuthOida.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.32.0.39516" PrivateAssets="All" />
+  </ItemGroup>
 
 </Project>

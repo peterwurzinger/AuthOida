@@ -1,22 +1,21 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace AuthOida.Microsoft.Identity.Groups.Tests.Fakes
-{
-    public class FakeGroupsMap : IGroupsMap
-    {
-        public string? GroupDisplayName { get; set; }
-        public bool TryGetValueCalled { get; private set; }
-        public bool TryGetValue(string groupId, [MaybeNullWhen(false)] out string groupDisplayName)
-        {
-            TryGetValueCalled = true;
-            if (GroupDisplayName is not null)
-            {
-                groupDisplayName = GroupDisplayName;
-                return true;
-            }
+namespace AuthOida.Microsoft.Identity.Groups.Tests.Fakes;
 
-            groupDisplayName = null;
-            return false;
+public class FakeGroupsMap : IGroupsMap
+{
+    public string? GroupDisplayName { get; set; }
+    public bool TryGetValueCalled { get; private set; }
+    public bool TryGetValue(string groupId, [MaybeNullWhen(false)] out string groupDisplayName)
+    {
+        TryGetValueCalled = true;
+        if (GroupDisplayName is not null)
+        {
+            groupDisplayName = GroupDisplayName;
+            return true;
         }
+
+        groupDisplayName = null;
+        return false;
     }
 }

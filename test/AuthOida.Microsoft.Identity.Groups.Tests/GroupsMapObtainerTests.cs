@@ -1,53 +1,51 @@
-﻿using AuthOida.Microsoft.Identity.Groups.Tests.Fakes;
-using AuthOida.Microsoft.Identity.Groups;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using AuthOida.Microsoft.Identity.Groups.Tests.Fakes;
 using Xunit;
 
-namespace AuthOida.Microsoft.Identity.Groups.Tests
+namespace AuthOida.Microsoft.Identity.Groups.Tests;
+
+public class GroupsMapObtainerTests
 {
-    public class GroupsMapObtainerTests
+    [Fact]
+    public void CtorGroupsMapFactoryNullThrows()
     {
-        [Fact]
-        public void CtorGroupsMapFactoryNullThrows()
-        {
-            Assert.Throws<ArgumentNullException>("groupsMapFactory", () => new GroupsMapObtainer(null!));
-        }
+        Assert.Throws<ArgumentNullException>("groupsMapFactory", () => new GroupsMapObtainer(null!));
+    }
 
-        [Fact]
-        public async Task GetOrCreateAuthenticationSchemeNullOrEmptyThrows()
-        {
-            var obtainer = new GroupsMapObtainer(new FakesGroupMapFactory());
+    [Fact]
+    public async Task GetOrCreateAuthenticationSchemeNullOrEmptyThrows()
+    {
+        var obtainer = new GroupsMapObtainer(new FakesGroupMapFactory());
 
-            await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => obtainer.GetOrCreate(null!));
-            await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => obtainer.GetOrCreate(string.Empty));
-        }
+        await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => obtainer.GetOrCreate(null!));
+        await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => obtainer.GetOrCreate(string.Empty));
+    }
 
-        [Fact]
-        public async Task GetOrCreateShouldCreateInstancesOnlyOnceForSameAuthenticationScheme()
-        {
-            var factory = new FakesGroupMapFactory();
-            var obtainer = new GroupsMapObtainer(factory);
+    [Fact]
+    public async Task GetOrCreateShouldCreateInstancesOnlyOnceForSameAuthenticationScheme()
+    {
+        var factory = new FakesGroupMapFactory();
+        var obtainer = new GroupsMapObtainer(factory);
 
-            var first = await obtainer.GetOrCreate("TestScheme");
-            var second = await obtainer.GetOrCreate("TestScheme");
+        var first = await obtainer.GetOrCreate("TestScheme");
+        var second = await obtainer.GetOrCreate("TestScheme");
 
-            Assert.Same(first, second);
-            Assert.Equal(1, factory.CallsPerAuthenticationScheme["TestScheme"]);
-        }
+        Assert.Same(first, second);
+        Assert.Equal(1, factory.CallsPerAuthenticationScheme["TestScheme"]);
+    }
 
-        [Fact]
-        public async Task GetOrCreateShouldCreateDifferentInstancesForDifferentAuthenticationSchemes()
-        {
-            var factory = new FakesGroupMapFactory();
-            var obtainer = new GroupsMapObtainer(factory);
+    [Fact]
+    public async Task GetOrCreateShouldCreateDifferentInstancesForDifferentAuthenticationSchemes()
+    {
+        var factory = new FakesGroupMapFactory();
+        var obtainer = new GroupsMapObtainer(factory);
 
-            var that = await obtainer.GetOrCreate("TestScheme");
-            var other = await obtainer.GetOrCreate("AnotherScheme");
+        var that = await obtainer.GetOrCreate("TestScheme");
+        var other = await obtainer.GetOrCreate("AnotherScheme");
 
-            Assert.NotNull(other);
-            Assert.NotSame(that, other);
-            Assert.Equal(1, factory.CallsPerAuthenticationScheme["AnotherScheme"]);
-        }
+        Assert.NotNull(other);
+        Assert.NotSame(that, other);
+        Assert.Equal(1, factory.CallsPerAuthenticationScheme["AnotherScheme"]);
     }
 }

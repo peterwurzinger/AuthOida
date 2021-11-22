@@ -1,26 +1,25 @@
-﻿using Microsoft.Identity.Web;
-using AuthOida.Microsoft.Identity.Groups.Tests.Fakes;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using AuthOida.Microsoft.Identity.Groups.Tests.Fakes;
+using Microsoft.Identity.Web;
 using Xunit;
 
-namespace AuthOida.Microsoft.Identity.Groups.Tests
+namespace AuthOida.Microsoft.Identity.Groups.Tests;
+
+public class GraphGroupsMapFactoryTests
 {
-    public class GraphGroupsMapFactoryTests
+    [Fact]
+    public void CtorThrowsIfIdentityOptionsAccessorIsNull()
     {
-        [Fact]
-        public void CtorThrowsIfIdentityOptionsAccessorIsNull()
-        {
-            Assert.Throws<ArgumentNullException>("identityOptionsAccessor", () => new GraphGroupsMapFactory(null!));
-        }
+        Assert.Throws<ArgumentNullException>("identityOptionsAccessor", () => new GraphGroupsMapFactory(null!));
+    }
 
-        [Fact]
-        public async Task CreateThrowsIfAuthenticationSchemeIsNullOrEmpty()
-        {
-            var factory = new GraphGroupsMapFactory(new FakeOptionsMonitor<MicrosoftIdentityOptions>());
+    [Fact]
+    public async Task CreateThrowsIfAuthenticationSchemeIsNullOrEmpty()
+    {
+        var factory = new GraphGroupsMapFactory(new FakeOptionsMonitor<MicrosoftIdentityOptions>());
 
-            await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => factory.Create(null!));
-            await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => factory.Create(string.Empty));
-        }
+        await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => factory.Create(null!));
+        await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => factory.Create(string.Empty));
     }
 }

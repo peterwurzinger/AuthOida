@@ -1,84 +1,83 @@
-﻿using AuthOida.Microsoft.Identity.Groups.Tests.Fakes;
+﻿using System;
+using System.Collections.Generic;
+using AuthOida.Microsoft.Identity.Groups.Tests.Fakes;
 using Azure.Identity;
 using Microsoft.Identity.Web;
-using System;
-using System.Collections.Generic;
 using Xunit;
 
-namespace AuthOida.Microsoft.Identity.Groups.Tests
+namespace AuthOida.Microsoft.Identity.Groups.Tests;
+
+public class TokenCredentialConversionTests
 {
-    public class TokenCredentialConversionTests
+    [Fact]
+    public void FromIdentityOptionsThrowsIfIdentityOptionsNull()
     {
-        [Fact]
-        public void FromIdentityOptionsThrowsIfIdentityOptionsNull()
-        {
-            Assert.Throws<ArgumentNullException>("identityOptions", () => TokenCredentialConversion.FromIdentityOptions(null!));
-        }
+        Assert.Throws<ArgumentNullException>("identityOptions", () => TokenCredentialConversion.FromIdentityOptions(null!));
+    }
 
-        [Fact]
-        public void FromIdentityOptionsShouldReturnClientCertificateCredentialIfClientCertificatesNotEmpty()
+    [Fact]
+    public void FromIdentityOptionsShouldReturnClientCertificateCredentialIfClientCertificatesNotEmpty()
+    {
+        using var fakeCert = FakeCertificate.CreateSelfSignedCertificateForTests();
+        var identityOptions = new MicrosoftIdentityOptions
         {
-            using var fakeCert = FakeCertificate.CreateSelfSignedCertificateForTests();
-            var identityOptions = new MicrosoftIdentityOptions
-            {
-                TenantId = "Tenant1234",
-                ClientId = "ClientId1234",
-                ClientCertificates = new List<CertificateDescription>()
+            TenantId = "Tenant1234",
+            ClientId = "ClientId1234",
+            ClientCertificates = new List<CertificateDescription>()
                 {
                     CertificateDescription.FromCertificate(fakeCert)
                 }
-            };
+        };
 
-            var result = TokenCredentialConversion.FromIdentityOptions(identityOptions);
+        var result = TokenCredentialConversion.FromIdentityOptions(identityOptions);
 
-            Assert.IsType<ClientCertificateCredential>(result);
-        }
+        Assert.IsType<ClientCertificateCredential>(result);
+    }
 
-        [Fact]
-        public void FromIdentityOptionsShouldReturnClientSecretCredentialIfClientSecretNotNull()
+    [Fact]
+    public void FromIdentityOptionsShouldReturnClientSecretCredentialIfClientSecretNotNull()
+    {
+        var identityOptions = new MicrosoftIdentityOptions
         {
-            var identityOptions = new MicrosoftIdentityOptions
-            {
-                TenantId = "Tenant1234",
-                ClientId = "ClientId1234",
-                ClientSecret = "Pssst,Secret"
-            };
+            TenantId = "Tenant1234",
+            ClientId = "ClientId1234",
+            ClientSecret = "Pssst,Secret"
+        };
 
-            var result = TokenCredentialConversion.FromIdentityOptions(identityOptions);
+        var result = TokenCredentialConversion.FromIdentityOptions(identityOptions);
 
-            Assert.IsType<ClientSecretCredential>(result);
-        }
+        Assert.IsType<ClientSecretCredential>(result);
+    }
 
-        [Fact]
-        public void FromIdentityOptionsShouldPreferClientCertificateOverClientSecret()
+    [Fact]
+    public void FromIdentityOptionsShouldPreferClientCertificateOverClientSecret()
+    {
+        using var fakeCert = FakeCertificate.CreateSelfSignedCertificateForTests();
+        var identityOptions = new MicrosoftIdentityOptions
         {
-            using var fakeCert = FakeCertificate.CreateSelfSignedCertificateForTests();
-            var identityOptions = new MicrosoftIdentityOptions
-            {
-                TenantId = "Tenant1234",
-                ClientId = "ClientId1234",
-                ClientSecret = "Pssst,Secret",
-                ClientCertificates = new List<CertificateDescription>()
+            TenantId = "Tenant1234",
+            ClientId = "ClientId1234",
+            ClientSecret = "Pssst,Secret",
+            ClientCertificates = new List<CertificateDescription>()
                 {
                     CertificateDescription.FromCertificate(fakeCert)
                 }
-            };
+        };
 
-            var result = TokenCredentialConversion.FromIdentityOptions(identityOptions);
+        var result = TokenCredentialConversion.FromIdentityOptions(identityOptions);
 
-            Assert.IsType<ClientCertificateCredential>(result);
-        }
+        Assert.IsType<ClientCertificateCredential>(result);
+    }
 
-        [Fact]
-        public void FromIdentityOptionsThrowsIfNeitherClientSecretNorClientCertificateIsSet()
+    [Fact]
+    public void FromIdentityOptionsThrowsIfNeitherClientSecretNorClientCertificateIsSet()
+    {
+        var identityOptions = new MicrosoftIdentityOptions
         {
-            var identityOptions = new MicrosoftIdentityOptions
-            {
-                TenantId = "Tenant1234",
-                ClientId = "ClientId1234"
-            };
+            TenantId = "Tenant1234",
+            ClientId = "ClientId1234"
+        };
 
-            Assert.Throws<NotImplementedException>(() => TokenCredentialConversion.FromIdentityOptions(identityOptions));
-        }
+        Assert.Throws<NotImplementedException>(() => TokenCredentialConversion.FromIdentityOptions(identityOptions));
     }
 }
