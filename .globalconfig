@@ -1,0 +1,5 @@
+is_global = true
+
+roslynator_accessibility_modifiers = explicit
+roslynator_enum_has_flag_style = method
+roslynator_object_creation_type_style = implicit_when_type_is_obvious
