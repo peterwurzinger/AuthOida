@@ -16,7 +16,7 @@
 
   <PropertyGroup>
     <Authors>Peter Wurzinger</Authors>
-    <Copyright>Copyright © 2021 Peter Wurzinger</Copyright>
+    <Copyright>Copyright © 2022 Peter Wurzinger</Copyright>
     <Description>AuthOida was developed to fill a gap in Microsoft.Identity/AzureAD, where only the object id of security groups are present in the provided token. Microsoft Graph is used to resolve the display names of those groups as additional claims.</Description>
   </PropertyGroup>
 
