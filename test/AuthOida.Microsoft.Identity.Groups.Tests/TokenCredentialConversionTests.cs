@@ -78,6 +78,7 @@ public class TokenCredentialConversionTests
             ClientId = "ClientId1234"
         };
 
-        Assert.Throws<NotImplementedException>(() => TokenCredentialConversion.FromIdentityOptions(identityOptions));
+        var exception = Assert.Throws<NotImplementedException>(() => TokenCredentialConversion.FromIdentityOptions(identityOptions));
+        Assert.Equal("Conversion to TokenCredential is only implemented for ClientSecret and ClientCertificates.", exception.Message);
     }
 }

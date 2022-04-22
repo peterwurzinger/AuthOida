@@ -23,14 +23,14 @@ internal class GroupsMapping
         _groupsMap = groupsMap ?? throw new ArgumentNullException(nameof(groupsMap));
     }
 
-    internal static GroupsMapping Prepare(MicrosoftIdentityOptions identityOptions, GroupsMappingOptions groupsMappingOptions, IGroupsMap groupsMap)
+    internal static GroupsMapping Create(MicrosoftIdentityOptions identityOptions, GroupsMappingOptions groupsMappingOptions, IGroupsMap groupsMap)
     {
         return new GroupsMapping(identityOptions.TenantId!, groupsMappingOptions.TokenGroupClaimType, groupsMappingOptions.GroupClaimType, groupsMappingOptions.AuthenticationType, groupsMap);
     }
 
-    internal void PerformMappingOn(ClaimsPrincipal claimsPrincipal)
+    internal ClaimsIdentity? PerformMappingOn(ClaimsPrincipal claimsPrincipal)
     {
-        var groupClaims = GetGroupClaims(claimsPrincipal, _tenantId, _tokenGroupClaimType);
+        var groupClaims = GetGroupClaimsFor(claimsPrincipal, _tenantId, _tokenGroupClaimType);
 
         var mappedRoles = new List<Claim>();
         foreach (var groupClaim in groupClaims)
@@ -38,11 +38,12 @@ internal class GroupsMapping
             Map(_groupsMap, _groupClaimType, mappedRoles, groupClaim);
         }
 
-        if (mappedRoles.Any())
-            AddClaimsAsIdentity(_authenticationType, claimsPrincipal, mappedRoles);
+        if (mappedRoles.Count > 0)
+            return CreateIdentity(_authenticationType, mappedRoles);
+        return null;
     }
 
-    private static Claim[] GetGroupClaims(ClaimsPrincipal claimsPrincipal, string tenantId, string tokenGroupClaimType)
+    private static IReadOnlyList<Claim> GetGroupClaimsFor(ClaimsPrincipal claimsPrincipal, string tenantId, string tokenGroupClaimType)
     {
         var groupClaims = from identity in claimsPrincipal.Identities
                           let tenantIdClaim = identity.FindFirst(ClaimConstants.TenantId)
@@ -56,9 +57,9 @@ internal class GroupsMapping
         return groupClaims.ToArray();
     }
 
-    private static void Map(IGroupsMap groupsMap, string groupClaimType, ICollection<Claim> mappedRoles, Claim msalGroupClaim)
+    private static void Map(IGroupsMap groupsMap, string groupClaimType, ICollection<Claim> mappedRoles, Claim groupClaim)
     {
-        var groupExists = groupsMap.TryGetValue(msalGroupClaim.Value, out var groupDisplayName);
+        var groupExists = groupsMap.TryGetValue(groupClaim.Value, out var groupDisplayName);
         if (groupExists)
         {
             var claim = new Claim(groupClaimType, groupDisplayName!, ClaimValueTypes.String);
@@ -66,11 +67,11 @@ internal class GroupsMapping
         }
     }
 
-    private static void AddClaimsAsIdentity(string authenticationType, ClaimsPrincipal claimsPrincipal, List<Claim> mappedRoles)
+    private static ClaimsIdentity CreateIdentity(string authenticationType, IEnumerable<Claim> mappedRoles)
     {
         var mappedRolesIdentity = new ClaimsIdentity(authenticationType);
         mappedRolesIdentity.AddClaims(mappedRoles);
 
-        claimsPrincipal.AddIdentity(mappedRolesIdentity);
+        return mappedRolesIdentity;
     }
 }

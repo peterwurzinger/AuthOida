@@ -29,6 +29,17 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         file: test-results/*/coverage.opencover.xml
+  mutationTest:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Restore Tools
+      working-directory: ./test
+      run: dotnet tool restore
+    - name: Run mutation tests
+      working-directory: ./test
+      run: dotnet stryker --reporter "dashboard" --dashboard-api-key ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
   package:
     needs: test
     runs-on: ubuntu-latest
