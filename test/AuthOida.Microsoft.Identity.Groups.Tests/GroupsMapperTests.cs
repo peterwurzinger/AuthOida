@@ -22,12 +22,21 @@ public class GroupsMapperTests
     }
 
     [Fact]
-    public async Task EnrichPrincipalWithMappedRolesThrowsIfAuthenticationSchemeIsNullOrEmpty()
+    public async Task EnrichPrincipalWithMappedRolesThrowsIfAuthenticationSchemeIsNull()
     {
         var mapper = GetGroupsMapper();
 
-        await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => mapper.EnrichPrincipalWithMappedRoles(null!, new ClaimsPrincipal()));
-        await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => mapper.EnrichPrincipalWithMappedRoles(string.Empty, new ClaimsPrincipal()));
+        var exception = await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => mapper.EnrichPrincipalWithMappedRoles(null!, new ClaimsPrincipal()));
+        Assert.Equal("'authenticationScheme' cannot be null or empty. (Parameter 'authenticationScheme')", exception.Message);
+    }
+
+    [Fact]
+    public async Task EnrichPrincipalWithMappedRolesThrowsIfAuthenticationSchemeIsEmpty()
+    {
+        var mapper = GetGroupsMapper();
+
+        var exception = await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => mapper.EnrichPrincipalWithMappedRoles(string.Empty, new ClaimsPrincipal()));
+        Assert.Equal("'authenticationScheme' cannot be null or empty. (Parameter 'authenticationScheme')", exception.Message);
     }
 
     [Fact]
@@ -35,7 +44,7 @@ public class GroupsMapperTests
     {
         var mapper = GetGroupsMapper();
 
-        var result = mapper.EnrichPrincipalWithMappedRoles("Test", null!);
+        var result = mapper.EnrichPrincipalWithMappedRoles("Test", null);
 
         Assert.Same(Task.CompletedTask, result);
     }
@@ -46,9 +55,9 @@ public class GroupsMapperTests
         var groupsMapFactory = new FakesGroupMapFactory();
         var obtainer = new GroupsMapObtainer(groupsMapFactory);
         var groupsMappingOptions = new FakeOptionsSnapshot<GroupsMappingOptions>();
-        var identityOptions = new FakeOptionsSnapshot<MicrosoftIdentityOptions>(new()
+        var identityOptions = new FakeOptionsSnapshot<MicrosoftIdentityOptions>(o => 
         {
-            TenantId = "Tenant1234"
+            o.TenantId = "Tenant1234";
         });
         var mapper = new GroupsMapper(obtainer, groupsMappingOptions, identityOptions);
 
@@ -61,12 +70,44 @@ public class GroupsMapperTests
         Assert.Equal(1, groupsMapFactory.CallsPerAuthenticationScheme["Test"]);
     }
 
+    [Fact]
+    public async Task EnrichPrincipalWithMappedRolesShouldMapGroups()
+    {
+        var groupsMapFactory = new FakesGroupMapFactory();
+        var obtainer = new GroupsMapObtainer(groupsMapFactory);
+        var groupsMappingOptions = new FakeOptionsSnapshot<GroupsMappingOptions>(o =>
+        {
+            o.AuthenticationType = "authenticationtype";
+            o.GroupClaimType = "groupclaimtype";
+            o.TokenGroupClaimType = "tokenclaimtype";
+        });
+
+
+        var identityOptions = new FakeOptionsSnapshot<MicrosoftIdentityOptions>(o => o.TenantId = "tenant1234");
+        var mapper = new GroupsMapper(obtainer, groupsMappingOptions, identityOptions);
+
+        var principal = CreateClaimsPrincipal();
+        await mapper.EnrichPrincipalWithMappedRoles("Test", principal);
+
+        Assert.Single(principal.Identities, p => p.AuthenticationType == "authenticationtype");
+    }
+
     private static GroupsMapper GetGroupsMapper()
     {
         var obtainer = new GroupsMapObtainer(new FakesGroupMapFactory());
         var groupsMappingOptions = new FakeOptionsSnapshot<GroupsMappingOptions>();
         var identity = new FakeOptionsSnapshot<MicrosoftIdentityOptions>();
-        var mapper = new GroupsMapper(obtainer, groupsMappingOptions, identity);
-        return mapper;
+        return new GroupsMapper(obtainer, groupsMappingOptions, identity);
+    }
+
+    private static ClaimsPrincipal CreateClaimsPrincipal()
+    {
+        var tenantClaim = new Claim(ClaimConstants.TenantId, "tenant1234");
+        var groupIdClaim = new Claim("tokenclaimtype", "Id1234");
+        var identity = new ClaimsIdentity();
+        identity.AddClaim(tenantClaim);
+        identity.AddClaim(groupIdClaim);
+
+        return new ClaimsPrincipal(identity);
     }
 }

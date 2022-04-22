@@ -14,15 +14,6 @@ public class GroupsMapObtainerTests
     }
 
     [Fact]
-    public async Task GetOrCreateAuthenticationSchemeNullOrEmptyThrows()
-    {
-        var obtainer = new GroupsMapObtainer(new FakesGroupMapFactory());
-
-        await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => obtainer.GetOrCreate(null!));
-        await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => obtainer.GetOrCreate(string.Empty));
-    }
-
-    [Fact]
     public async Task GetOrCreateShouldCreateInstancesOnlyOnceForSameAuthenticationScheme()
     {
         var factory = new FakesGroupMapFactory();

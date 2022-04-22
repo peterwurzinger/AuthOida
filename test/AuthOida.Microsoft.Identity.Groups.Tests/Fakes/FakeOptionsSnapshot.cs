@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System;
+using Microsoft.Extensions.Options;
 
 namespace AuthOida.Microsoft.Identity.Groups.Tests.Fakes;
 
@@ -12,9 +13,11 @@ public class FakeOptionsSnapshot<T> : IOptionsSnapshot<T>
         Value = value;
     }
 
-    public FakeOptionsSnapshot()
+    public FakeOptionsSnapshot(Action<T>? setup = null)
     {
         Value = new T();
+        if (setup is not null)
+            setup(Value);
     }
 
     public bool GetCalled { get; private set; }

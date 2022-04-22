@@ -6,6 +6,12 @@ public class FakeGroupsMap : IGroupsMap
 {
     public string? GroupDisplayName { get; set; }
     public bool TryGetValueCalled { get; private set; }
+
+    public FakeGroupsMap()
+    {
+        GroupDisplayName = "FakeGroupName";
+    }
+
     public bool TryGetValue(string groupId, [MaybeNullWhen(false)] out string groupDisplayName)
     {
         TryGetValueCalled = true;

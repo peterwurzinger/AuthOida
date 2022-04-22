@@ -21,7 +21,7 @@ public class GroupsMappingTests
     }
 
     [Fact]
-    public void PrepareShouldCreateNewInstance()
+    public void CreateShouldCreateNewInstance()
     {
         var identityOptions = new MicrosoftIdentityOptions
         {
@@ -34,13 +34,13 @@ public class GroupsMappingTests
             TokenGroupClaimType = "https://tokenclaimtype"
         };
 
-        var groupsMapping = GroupsMapping.Prepare(identityOptions, groupsMappingOptions, new FakeGroupsMap());
+        var groupsMapping = GroupsMapping.Create(identityOptions, groupsMappingOptions, new FakeGroupsMap());
 
         Assert.NotNull(groupsMapping);
     }
 
     [Fact]
-    public void PerformMappingOnShouldAddNewIdentityContainingClaimsWithGroupDisplayNameAsValue()
+    public void PerformMappingOnShouldReturnNewIdentityContainingClaimsWithGroupDisplayNameAsValue()
     {
         var principal = CreateClaimsPrincipal();
         var groupsMap = new FakeGroupsMap
@@ -49,24 +49,41 @@ public class GroupsMappingTests
         };
 
         var groupsMapping = new GroupsMapping("tenant1234", "tokenclaimtype", "groupclaimtype", "authenticationtype", groupsMap);
-        groupsMapping.PerformMappingOn(principal);
+        var identity = groupsMapping.PerformMappingOn(principal);
 
-        var identity = Assert.Single(principal.Identities, i => i.AuthenticationType == "authenticationtype");
-        Assert.Equal("authenticationtype", identity.AuthenticationType);
+        Assert.NotNull(identity);
+        Assert.Equal("authenticationtype", identity!.AuthenticationType);
         Assert.Single(identity.Claims, c => c.Type == "groupclaimtype" && c.Value == "TESTGROUPNAME");
     }
 
     [Fact]
-    public void PerformMappingOnShouldNotAddIdentityIfNoGroupFound()
+    public void PerformMappingOnShouldReturnNullIfNoGroupFound()
     {
         var principal = CreateClaimsPrincipal();
-        var groupsMap = new FakeGroupsMap();
+        var groupsMap = new FakeGroupsMap
+        {
+            GroupDisplayName = null
+        };
 
         var groupsMapping = new GroupsMapping("tenant1234", "tokenclaimtype", "groupclaimtype", "authenticationtype", groupsMap);
-        groupsMapping.PerformMappingOn(principal);
+        var identity = groupsMapping.PerformMappingOn(principal);
 
-        var identity = Assert.Single(principal.Identities);
-        Assert.Equal(2, identity.Claims.Count());
+        Assert.Null(identity);
+    }
+
+    [Fact]
+    public void PerformMappingOnShouldConsiderGroupClaimsWithCorrectTypeOnly()
+    {
+        var principal = CreateClaimsPrincipal();
+        var groupsMap = new FakeGroupsMap
+        {
+            GroupDisplayName = "TESTGROUPNAME"
+        };
+
+        var groupsMapping = new GroupsMapping("tenant1234", "tokenclaimtype ", "acompletelydifferentgroupstype", "authenticationtype", groupsMap);
+        var identity = groupsMapping.PerformMappingOn(principal);
+
+        Assert.Null(identity);
     }
 
     private static ClaimsPrincipal CreateClaimsPrincipal()

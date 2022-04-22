@@ -14,12 +14,23 @@ public class GraphGroupsMapFactoryTests
         Assert.Throws<ArgumentNullException>("identityOptionsAccessor", () => new GraphGroupsMapFactory(null!));
     }
 
+    private const string Message = "'authenticationScheme' cannot be null or empty. (Parameter 'authenticationScheme')";
+
     [Fact]
-    public async Task CreateThrowsIfAuthenticationSchemeIsNullOrEmpty()
+    public async Task CreateThrowsIfAuthenticationSchemeIsNull()
     {
         var factory = new GraphGroupsMapFactory(new FakeOptionsMonitor<MicrosoftIdentityOptions>());
 
-        await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => factory.Create(null!));
-        await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => factory.Create(string.Empty));
+        var exception = await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => factory.Create(null!));
+        Assert.Equal(Message, exception.Message);
+    }
+
+    [Fact]
+    public async Task CreateThrowsIfAuthenticationSchemeIsEmpty()
+    {
+        var factory = new GraphGroupsMapFactory(new FakeOptionsMonitor<MicrosoftIdentityOptions>());
+
+        var exception = await Assert.ThrowsAsync<ArgumentException>("authenticationScheme", () => factory.Create(string.Empty));
+        Assert.Equal(Message, exception.Message);
     }
 }
