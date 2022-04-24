@@ -43,7 +43,7 @@ jobs:
       if: github.event_name == 'pull_request'
     - name: Run mutation tests
       working-directory: ./test
-      run: dotnet stryker --reporter dashboard --dashboard-api-key ${{ secrets.STRYKER_DASHBOARD_API_KEY }} --version ${{ github.ref }}
+      run: dotnet stryker --reporter dashboard --dashboard-api-key ${{ secrets.STRYKER_DASHBOARD_API_KEY }} --version ${{ github.ref_name }}
       if: github.event_name != 'pull_request'
   package:
     needs: test
