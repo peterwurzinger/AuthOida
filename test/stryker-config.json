@@ -3,6 +3,9 @@
     "test-projects": [ "AuthOida.Microsoft.Identity.Groups.Tests/AuthOida.Microsoft.Identity.Groups.Tests.csproj" ],
     "ignore-methods": [
       "ConfigureAwait" // Ignores mutations of ConfigureAwait(false)
-    ]
+    ],
+    "baseline": {
+      "provider": "Dashboard"
+    }
   }
 }
