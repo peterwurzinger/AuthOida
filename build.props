@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <MicrosoftIdentityWebVersion>1.24.1</MicrosoftIdentityWebVersion>
+    <MicrosoftIdentityWebVersion>1.25.1</MicrosoftIdentityWebVersion>
   </PropertyGroup>
 
   <PropertyGroup>
