@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <MicrosoftIdentityWebVersion>1.25.2</MicrosoftIdentityWebVersion>
+    <MicrosoftIdentityWebVersion>1.25.3</MicrosoftIdentityWebVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -29,7 +29,7 @@
   <!--Code analysis-->
   
   <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.45.0.54064" PrivateAssets="All" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.46.0.54807" PrivateAssets="All" />
     <PackageReference Include="Roslynator.Analyzers" Version="4.1.1" PrivateAssets="All" />
   </ItemGroup>
   
