@@ -1,12 +1,12 @@
 <Project>
 
   <PropertyGroup>
-    <MicrosoftIdentityWebVersion>1.25.3</MicrosoftIdentityWebVersion>
+    <MicrosoftIdentityWebVersion>1.25.10</MicrosoftIdentityWebVersion>
   </PropertyGroup>
 
   <PropertyGroup>
     <Nullable>Enable</Nullable>
-    <LangVersion>10.0</LangVersion>
+    <LangVersion>11.0</LangVersion>
     <VersionPrefix>$(MicrosoftIdentityWebVersion)</VersionPrefix>
   </PropertyGroup>
 
@@ -29,8 +29,8 @@
   <!--Code analysis-->
   
   <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.46.0.54807" PrivateAssets="All" />
-    <PackageReference Include="Roslynator.Analyzers" Version="4.1.1" PrivateAssets="All" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.49.0.57237" PrivateAssets="All" />
+    <PackageReference Include="Roslynator.Analyzers" Version="4.2.0" PrivateAssets="All" />
   </ItemGroup>
   
   <PropertyGroup>

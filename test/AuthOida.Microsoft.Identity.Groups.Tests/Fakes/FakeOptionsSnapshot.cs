@@ -22,7 +22,7 @@ public class FakeOptionsSnapshot<T> : IOptionsSnapshot<T>
 
     public bool GetCalled { get; private set; }
     public string? LastName { get; private set; }
-    public T Get(string name)
+    public T Get(string? name)
     {
         GetCalled = true;
         LastName = name;
