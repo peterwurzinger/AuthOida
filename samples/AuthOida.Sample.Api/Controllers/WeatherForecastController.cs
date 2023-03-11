@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web.Resource;
 
 namespace AuthOida.Sample.Api.Controllers;
@@ -18,15 +17,9 @@ public class WeatherForecastController : ControllerBase
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-    private readonly ILogger<WeatherForecastController> _logger;
-
     // The Web API will only accept tokens 1) for users, and 2) having the "access_as_user" scope for this API
     static readonly string[] scopeRequiredByApi = new string[] { "access_as_user" };
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
-    {
-        _logger = logger;
-    }
 
 #pragma warning disable CA5394 // Do not use insecure randomness
     [HttpGet]

@@ -16,7 +16,7 @@ public class FakesGroupMapFactory : IGroupsMapFactory
 
     public Task<IGroupsMap> Create(string authenticationScheme, CancellationToken cancellationToken = default)
     {
-        if (_callsPerAuthenticationScheme.ContainsKey(authenticationScheme))
+        if (_callsPerAuthenticationScheme.TryGetValue(authenticationScheme, out var value))
             _callsPerAuthenticationScheme[authenticationScheme]++;
 
         _callsPerAuthenticationScheme[authenticationScheme] = 1;
