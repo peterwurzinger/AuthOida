@@ -13,7 +13,7 @@ internal sealed class GroupsMapper
     private readonly IOptionsSnapshot<MicrosoftIdentityOptions> _identityOptionsAccessor;
     private readonly IOptionsSnapshot<GroupsMappingOptions> _groupsMappingOptionsAccessor;
 
-    internal GroupsMapper(GroupsMapObtainer groupsMapObtainer, IOptionsSnapshot<GroupsMappingOptions> groupsMappingOptionsAccessor, IOptionsSnapshot<MicrosoftIdentityOptions> identityOptionsAccessor)
+    public GroupsMapper(GroupsMapObtainer groupsMapObtainer, IOptionsSnapshot<GroupsMappingOptions> groupsMappingOptionsAccessor, IOptionsSnapshot<MicrosoftIdentityOptions> identityOptionsAccessor)
     {
         _groupsMapsObtainer = groupsMapObtainer ?? throw new ArgumentNullException(nameof(groupsMapObtainer));
         _groupsMappingOptionsAccessor = groupsMappingOptionsAccessor ?? throw new ArgumentNullException(nameof(groupsMappingOptionsAccessor));

@@ -10,7 +10,7 @@ internal sealed class GroupsMapObtainer
     private readonly IGroupsMapFactory _groupsMapFactory;
     private readonly Dictionary<string, IGroupsMap> _groupMaps;
 
-    internal GroupsMapObtainer(IGroupsMapFactory groupsMapFactory)
+    public GroupsMapObtainer(IGroupsMapFactory groupsMapFactory)
     {
         _groupsMapFactory = groupsMapFactory ?? throw new ArgumentNullException(nameof(groupsMapFactory));
         _groupMaps = new Dictionary<string, IGroupsMap>();
