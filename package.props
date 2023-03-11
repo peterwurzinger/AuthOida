@@ -16,14 +16,15 @@
 
   <PropertyGroup>
     <Authors>Peter Wurzinger</Authors>
-    <Copyright>Copyright © 2022 Peter Wurzinger</Copyright>
+    <Copyright>Copyright © 2023 Peter Wurzinger</Copyright>
     <Description>AuthOida was developed to fill a gap in Microsoft.Identity/AzureAD, where only the object id of security groups are present in the provided token. Microsoft Graph is used to resolve the display names of those groups as additional claims.</Description>
   </PropertyGroup>
 
   <PropertyGroup>
     <PackageProjectUrl>https://github.com/peterwurzinger/AuthOida</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Upgraded to Microsoft.Identity.Web.MicrosoftGraph 1.25.10 and added support for .NET 7</PackageReleaseNotes>
+    <PackageReleaseNotes>- Upgraded to Microsoft.Identity.Web.MicrosoftGraph 1.26.0
+    - fixed a bug that prevented AuthOida from obtaining registered services.</PackageReleaseNotes>
     <PackageTags>Microsoft.Identity;AzureAD</PackageTags>
   </PropertyGroup>
 
