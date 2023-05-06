@@ -12,17 +12,17 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Setup dotnet (3.1)
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '3.1'
       if: matrix.framework == 'netcoreapp3.1'
     - name: Setup dotnet (6.0)
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '6.0'
       if: matrix.framework == 'net6.0'
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
     - name: Run tests (${{ matrix.framework }})
       run: dotnet test --configuration Release --framework ${{ matrix.framework }} --results-directory test-results --settings test/test.runsettings
     - name: Publish coverage
@@ -37,7 +37,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
     - name: Restore Tools
       working-directory: ./test
       run: dotnet tool restore
@@ -56,7 +56,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Setup dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
     - name: Create packages (w/o version suffix)
       run: dotnet pack --configuration Release --output pkg
       if: startsWith(github.ref, 'refs/tags/v') == true
