@@ -29,8 +29,8 @@
   <!--Code analysis-->
   
   <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.54.0.64047" PrivateAssets="All" />
-    <PackageReference Include="Roslynator.Analyzers" Version="4.2.0" PrivateAssets="All" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.0.0.68202" PrivateAssets="All" />
+    <PackageReference Include="Roslynator.Analyzers" Version="4.3.0" PrivateAssets="All" />
   </ItemGroup>
   
   <PropertyGroup>
