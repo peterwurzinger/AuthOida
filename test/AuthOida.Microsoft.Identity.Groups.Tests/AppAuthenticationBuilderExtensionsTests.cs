@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Web;
 using Xunit;
@@ -76,7 +77,12 @@ public class AppAuthenticationBuilderExtensionsTests
 
     private static MicrosoftIdentityWebAppAuthenticationBuilder GetAppAuthenticationBuilder()
     {
+#if NET6_0_OR_GREATER
+        var host = WebApplication.CreateBuilder();
+        var services = host.Services;
+#else
         var services = new ServiceCollection();
+#endif
         var builder = services.AddAuthentication();
 
         return builder.AddMicrosoftIdentityWebApp(_ => { }, _ => { });
