@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +35,7 @@ public class AppAuthenticationBuilderExtensionsTests
         {
             o.Events = new OpenIdConnectEvents
             {
-                OnTokenValidated = null
+                OnTokenValidated = _ => Task.CompletedTask
             };
         });
         appBuilder.AddMappedGroups(openIdConnectScheme: scheme);

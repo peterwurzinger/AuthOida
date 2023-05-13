@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +35,7 @@ public class ApiAuthenticationBuilderExtensionsTests
         {
             o.Events = new JwtBearerEvents
             {
-                OnTokenValidated = null
+                OnTokenValidated = _ => Task.CompletedTask
             };
         });
         apiBuilder.AddMappedGroups(jwtBearerScheme: scheme);
@@ -42,7 +43,6 @@ public class ApiAuthenticationBuilderExtensionsTests
         var options = apiBuilder.GetOptionsInstance<JwtBearerOptions>(scheme);
         Assert.NotNull(options.Events?.OnTokenValidated);
     }
-
 
     [Fact]
     public void ShouldConfigureOptions()
