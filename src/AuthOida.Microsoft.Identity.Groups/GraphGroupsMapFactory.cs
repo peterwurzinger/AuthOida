@@ -13,7 +13,7 @@ namespace AuthOida.Microsoft.Identity.Groups;
 /// </summary>
 public sealed class GraphGroupsMapFactory : IGroupsMapFactory
 {
-    private const string ReadGroupsScope = "Groups.Read.All";
+    private const string ReadGroupsScope = "Group.ReadAll";
 
     private readonly IOptionsMonitor<MicrosoftIdentityOptions> _identityOptionsAccessor;
 
