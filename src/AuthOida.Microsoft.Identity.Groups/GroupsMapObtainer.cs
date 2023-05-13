@@ -1,35 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AuthOida.Microsoft.Identity.Groups;
 
 internal sealed class GroupsMapObtainer
 {
     private readonly IGroupsMapFactory _groupsMapFactory;
-    private readonly Dictionary<string, IGroupsMap> _groupMaps;
+    private readonly IMemoryCache _memoryCache;
 
-    public GroupsMapObtainer(IGroupsMapFactory groupsMapFactory)
+    public GroupsMapObtainer(IGroupsMapFactory groupsMapFactory, IMemoryCache memoryCache)
     {
         _groupsMapFactory = groupsMapFactory ?? throw new ArgumentNullException(nameof(groupsMapFactory));
-        _groupMaps = new Dictionary<string, IGroupsMap>();
+        _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
     }
 
-    internal async Task<IGroupsMap> GetOrCreate(string authenticationScheme, CancellationToken cancellationToken = default)
+    internal Task<IGroupsMap> GetOrCreate(string authenticationScheme, CancellationToken cancellationToken = default)
     {
-        await EnsureCreated(authenticationScheme, cancellationToken).ConfigureAwait(false);
-
-        return _groupMaps[authenticationScheme];
-    }
-
-    private async Task EnsureCreated(string authenticationScheme, CancellationToken cancellationToken = default)
-    {
-        var isContained = _groupMaps.ContainsKey(authenticationScheme);
-        if (isContained)
-            return;
-
-        var instance = await _groupsMapFactory.Create(authenticationScheme, cancellationToken).ConfigureAwait(false);
-        _groupMaps[authenticationScheme] = instance;
+        var cacheKey = $"authOida:{authenticationScheme}:groupsMap";
+        return _memoryCache.GetOrCreateAsync(cacheKey, _ => _groupsMapFactory.Create(authenticationScheme, cancellationToken))!;
     }
 }

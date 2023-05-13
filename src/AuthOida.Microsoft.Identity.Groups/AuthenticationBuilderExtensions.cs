@@ -3,6 +3,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Identity.Web;
 
 namespace AuthOida.Microsoft.Identity.Groups;
@@ -81,13 +82,13 @@ public static class AuthenticationBuilderExtensions
 
     private static void AddMappedGroupsServices(IServiceCollection services, string authenticationScheme, Action<GroupsMappingOptions>? configureOptions)
     {
-        if (configureOptions is null)
-            configureOptions = o => { };
+        configureOptions ??= _ => { };
 
         services.Configure(authenticationScheme, configureOptions);
-        services.AddScoped<GroupsMapper>();
+        services.TryAddScoped<GroupsMapper>();
 
-        services.AddSingleton<IGroupsMapFactory, GraphGroupsMapFactory>();
-        services.AddSingleton<GroupsMapObtainer>();
+        services.TryAddSingleton<IGroupsMapFactory, GraphGroupsMapFactory>();
+        services.TryAddSingleton<GroupsMapObtainer>();
+        services.AddMemoryCache();
     }
 }

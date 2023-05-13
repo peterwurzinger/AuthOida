@@ -2,17 +2,25 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AuthOida.Microsoft.Identity.Groups.Tests.Fakes;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Identity.Web;
 using Xunit;
 
 namespace AuthOida.Microsoft.Identity.Groups.Tests;
 
-public class GroupsMapperTests
+public sealed class GroupsMapperTests : IDisposable
 {
+    private readonly MemoryCache _memoryCache;
+
+    public GroupsMapperTests()
+    {
+        _memoryCache = new MemoryCache(new FakeOptionsSnapshot<MemoryCacheOptions>());
+    }
+
     [Fact]
     public void CtorThrowsIfParameterIsNull()
     {
-        var obtainer = new GroupsMapObtainer(new FakesGroupMapFactory());
+        var obtainer = new GroupsMapObtainer(new FakesGroupMapFactory(), _memoryCache);
         var groupsMappingOptions = new FakeOptionsSnapshot<GroupsMappingOptions>();
         var identity = new FakeOptionsSnapshot<MicrosoftIdentityOptions>();
 
@@ -53,9 +61,9 @@ public class GroupsMapperTests
     public async Task EnrichPrincipalWithMappedRolesShouldObtainRightOptionInstances()
     {
         var groupsMapFactory = new FakesGroupMapFactory();
-        var obtainer = new GroupsMapObtainer(groupsMapFactory);
+        var obtainer = new GroupsMapObtainer(groupsMapFactory, _memoryCache);
         var groupsMappingOptions = new FakeOptionsSnapshot<GroupsMappingOptions>();
-        var identityOptions = new FakeOptionsSnapshot<MicrosoftIdentityOptions>(o => 
+        var identityOptions = new FakeOptionsSnapshot<MicrosoftIdentityOptions>(o =>
         {
             o.TenantId = "Tenant1234";
         });
@@ -74,14 +82,13 @@ public class GroupsMapperTests
     public async Task EnrichPrincipalWithMappedRolesShouldMapGroups()
     {
         var groupsMapFactory = new FakesGroupMapFactory();
-        var obtainer = new GroupsMapObtainer(groupsMapFactory);
+        var obtainer = new GroupsMapObtainer(groupsMapFactory, _memoryCache);
         var groupsMappingOptions = new FakeOptionsSnapshot<GroupsMappingOptions>(o =>
         {
             o.AuthenticationType = "authenticationtype";
             o.GroupClaimType = "groupclaimtype";
             o.TokenGroupClaimType = "tokenclaimtype";
         });
-
 
         var identityOptions = new FakeOptionsSnapshot<MicrosoftIdentityOptions>(o => o.TenantId = "tenant1234");
         var mapper = new GroupsMapper(obtainer, groupsMappingOptions, identityOptions);
@@ -92,9 +99,9 @@ public class GroupsMapperTests
         Assert.Single(principal.Identities, p => p.AuthenticationType == "authenticationtype");
     }
 
-    private static GroupsMapper GetGroupsMapper()
+    private GroupsMapper GetGroupsMapper()
     {
-        var obtainer = new GroupsMapObtainer(new FakesGroupMapFactory());
+        var obtainer = new GroupsMapObtainer(new FakesGroupMapFactory(), _memoryCache);
         var groupsMappingOptions = new FakeOptionsSnapshot<GroupsMappingOptions>();
         var identity = new FakeOptionsSnapshot<MicrosoftIdentityOptions>();
         return new GroupsMapper(obtainer, groupsMappingOptions, identity);
@@ -109,5 +116,11 @@ public class GroupsMapperTests
         identity.AddClaim(groupIdClaim);
 
         return new ClaimsPrincipal(identity);
+    }
+
+    public void Dispose()
+    {
+        _memoryCache.Dispose();
+        GC.SuppressFinalize(this);
     }
 }
