@@ -49,6 +49,17 @@ jobs:
       working-directory: ./test
       run: dotnet stryker --reporter dashboard --dashboard-api-key ${{ secrets.STRYKER_DASHBOARD_API_KEY }} --version ${{ github.ref_name }}
       if: github.event_name != 'pull_request'
+  sonarcloud:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   package:
     needs: test
     runs-on: ubuntu-latest

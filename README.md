@@ -6,6 +6,7 @@ AuthOida
 [![GitHub status](https://github.com/peterwurzinger/AuthOida/workflows/everything/badge.svg)](https://github.com/peterwurzinger/AuthOida/actions)
 [![Code coverage](https://codecov.io/gh/peterwurzinger/AuthOida/branch/main/graph/badge.svg)](https://codecov.io/gh/peterwurzinger/AuthOida)
 [![Mutation score](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fpeterwurzinger%2FAuthOida%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/peterwurzinger/AuthOida/main)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=peterwurzinger_AuthOida&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=peterwurzinger_AuthOida)
 
 *AuthOida* closes a gap in *Microsoft.Identity.Web*, where Azure Active Directory group
 assignments for an identity are only appended to the token using the groups `ObjectID` instead of
