@@ -29,7 +29,7 @@
   <!--Code analysis-->
   
   <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.0.0.68202" PrivateAssets="All" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.3.0.71466" PrivateAssets="All" />
     <PackageReference Include="Roslynator.Analyzers" Version="4.3.0" PrivateAssets="All" />
   </ItemGroup>
   
