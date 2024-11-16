@@ -1,6 +1,14 @@
 AuthOida
 ==========
 
+# Archived
+As I don't have personal or professional use for it any longer, and I'm lacking time and motivation to maintain a package I dont need, this repository has been archived with November 16th, 2024. There won't be any new releases, security patches or whatsoever.
+I decided to archive and keep it as readonly repository, because I think it's a neat showcases of how the process of building an authentication ticket in ASP.NET Core can be augmented by utilizing existing hooks. Maybe someone can identify patterns to solve a problem s/he's facing right now.
+
+If somebody did ever use this package: I hope it saved you some hours of development. Cheers.
+
+----
+
 [![Latest package](https://img.shields.io/nuget/v/AuthOida.Microsoft.Identity.Groups.svg)](https://www.nuget.org/packages/AuthOida.Microsoft.Identity.Groups)
 [![Download tracker](https://img.shields.io/nuget/dt/AuthOida.Microsoft.Identity.Groups.svg)](https://www.nuget.org/packages/AuthOida.Microsoft.Identity.Groups)
 [![GitHub status](https://github.com/peterwurzinger/AuthOida/workflows/everything/badge.svg)](https://github.com/peterwurzinger/AuthOida/actions)
